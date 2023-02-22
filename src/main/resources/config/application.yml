@@ -1,0 +1,178 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+#
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+feign:
+    hystrix:
+        enabled: true
+
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    strategy: SEMAPHORE
+    shareSecurityContext: true
+
+management:
+    endpoints:
+        web:
+            base-path: /management
+            exposure:
+                include: [ 'configprops', 'env', 'health', 'info', 'jhimetrics', 'logfile', 'loggers', 'threaddump' ]
+    endpoint:
+        health:
+            probes:
+                enabled: true
+            enabled: true
+        jhimetrics:
+            enabled: true
+    info:
+        git:
+            mode: full
+    health:
+        group:
+            liveness:
+                include: livenessState
+            readiness:
+                include: readinessState
+        mail:
+            enabled: false # When using the MailService, configure an SMTP server and set this to true
+        redis:
+            enabled: false
+    metrics:
+        enable:
+            http: true
+            jvm: true
+            logback: true
+            process: true
+            system: true
+        distribution:
+            percentiles-histogram:
+                all: true
+            percentiles:
+                all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
+        tags:
+            application: search
+        web:
+            server:
+                request:
+                    autotime:
+                        enabled: true
+
+logging:
+    level:
+        vn.chef.template.config.RequestLoggingTimeFilter: DEBUG
+        org.springframework.data.convert.CustomConversions: ERROR
+
+spring:
+    application:
+        name: Template Service
+    profiles:
+        active: dev
+    jmx:
+        enabled: false
+    messages:
+        basename: i18n/messages
+    main:
+        allow-bean-definition-overriding: true
+    task:
+        execution:
+            thread-name-prefix: template-task-
+            pool:
+                core-size: 2
+                max-size: 50
+                queue-capacity: 10000
+        scheduling:
+            thread-name-prefix: template-scheduling-
+            pool:
+                size: 2
+    flyway:
+        schemas: public
+    datasource:
+        url: jdbc:postgresql://localhost:5432/template-service?currentSchema=public
+        username: postgres
+        password: postgres
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        properties:
+            hibernate:
+                default_schema: public
+                dialect: org.hibernate.dialect.PostgreSQL95Dialect
+                show_sql: false
+                format_sql: false
+                jdbc:
+                    lob:
+                        non_contextual_creation: true # to solve https://github.com/spring-projects/spring-boot/issues/12007
+        open-in-view: false
+    devtools:
+        restart:
+            enabled: true
+            additional-exclude: static/**
+        livereload:
+            enabled: false # we use Webpack dev server + BrowserSync for livereload
+server:
+    servlet:
+        session:
+            cookie:
+                http-only: true
+    port: 8001
+
+# Properties to be exposed on the /info management endpoint
+info:
+    display-ribbon-on-profiles: 'dev'
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+jhipster:
+    clientApp:
+        name: 'TemplateApp'
+    cors:
+        allowed-origins: "*"
+        allowed-methods: "GET, POST, DELETE, PUT, PATCH, HEAD"
+        allowed-headers: "*"
+        exposed-headers: "Authorization, Access-Control-Allow-Origin, Access-Control-Allow-Credentials"
+        allow-credentials: false
+        max-age: 1800
+    api-docs:
+        default-include-pattern: ${server.servlet.context-path:}/api/.*
+        management-include-pattern: ${server.servlet.context-path:}/management/.*
+        title: Search API
+        description: Search API documentation
+        version: ${search-service.app-version}
+        terms-of-service-url:
+        contact-name:
+        contact-url:
+        contact-email:
+        license: Apache 2.0
+        license-url: https://www.apache.org/licenses/LICENSE-2.0.html
+    security:
+        content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+template-service:
+    app-version: #project.version#
+    client:
+        timeout: 30 # seconds

@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+    title:  Template Service API
+    version: 0.0.1
+servers:
+    -   url: "http://localhost:8001"
+        description: "Local development server"
+paths:
+    /actuator/health:
+        get:
+            summary: Get health status
+            tags:
+                - Management
+            operationId: getHealth
+            responses:
+                200:
+                    description: get health status
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Health"
+    /api/v1/books:
+        get:
+            summary: Get a list of books
+            tags:
+                - BookV1
+            operationId: getBooks
+            parameters:
+                - $ref: "#/components/parameters/Limit"
+                - $ref: "#/components/parameters/Offset"
+            responses:
+                200:
+                    description: get list of books available
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/BooksResponse"
+        post:
+            summary: Add a new book
+            tags:
+                - BookV1
+            operationId: createBook
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/BookCreateRequest"
+            responses:
+                200:
+                    description: create a new book
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/BookItemResponse"
+                400:
+                    description: bad request, bad data
+
+    /api/v1/books/{bookId}:
+        get:
+            summary: Get a book by id
+            tags:
+                - BookV1
+            operationId: getBook
+            parameters:
+                -   name: bookId
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                        format: uuid
+            responses:
+                200:
+                    description: get one book based on item id
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/BookItemResponse"
+
+components:
+    parameters:
+        Limit:
+            name: limit
+            in: query
+            description: the number of items to return
+            schema:
+                type: integer
+                format: int32
+                default: 20
+        Offset:
+            name: offset
+            in: query
+            description: the number of items to skip before starting to collect the result set
+            schema:
+                type: integer
+                format: int32
+                default: 0
+    schemas:
+        Health:
+            type: object
+            title: Health
+            properties:
+                status:
+                    type: string
+                    description: the status of the health
+
+
+        BookCreateRequest:
+            type: object
+            title: BookCreateRequest
+            required:
+                - title
+                - code
+                - publisher
+                - publicDate
+            properties:
+                title:
+                    type: string
+                    description: the id of the book
+                code:
+                    type: string
+                    description: the code of the book
+                publisher:
+                    type: string
+                    description: name of the publisher
+                publicDate:
+                    type: string
+                    format: date
+                    description: date of publication
+
+        BookItemResponse:
+            type: object
+            title: BookItemResponse
+            required:
+                - bookId
+                - code
+            properties:
+                bookId:
+                    type: string
+                    format: uuid
+                    description: the id of the book
+                code:
+                    type: string
+                    description: the code of the book
+                title:
+                    type: string
+                    description: the id of the book
+                publisher:
+                    type: string
+                    description: name of the publisher
+                publicDate:
+                    type: string
+                    format: date
+                    description: date of publication
+
+        BooksResponse:
+            type: object
+            title: BooksResponse
+            properties:
+                books:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/BookItemResponse"
+                total:
+                    type: integer
+                    format: int32
+                    description: the total number of books
