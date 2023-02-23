@@ -67,8 +67,8 @@ paths:
                     in: path
                     required: true
                     schema:
-                        type: string
-                        format: uuid
+                        type: integer
+                        format: int64
             responses:
                 200:
                     description: get one book based on item id
@@ -136,8 +136,8 @@ components:
                 - code
             properties:
                 bookId:
-                    type: string
-                    format: uuid
+                    type: integer
+                    format: int64
                     description: the id of the book
                 code:
                     type: string

@@ -11,7 +11,6 @@ import vn.chef.template.web.api.model.BookCreateRequest;
 import vn.chef.template.web.api.model.BookItemResponse;
 import vn.chef.template.web.api.model.BooksResponse;
 
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -27,7 +26,7 @@ public class BookV1Api implements BookV1ApiDelegate {
     }
 
     @Override
-    public ResponseEntity<BookItemResponse> getBook(UUID bookId) {
+    public ResponseEntity<BookItemResponse> getBook(Long bookId) {
         return ResponseEntity.ok(IBookMapper.INSTANCE.toBookItemResponse(bookService.getBookByBookId(bookId)));
     }
 

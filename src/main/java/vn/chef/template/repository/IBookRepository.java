@@ -4,10 +4,8 @@ import vn.chef.template.domain.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
-public interface IBookRepository extends JpaRepository<Book, UUID> {
+public interface IBookRepository extends JpaRepository<Book, Long> {
 
     Book findByCode(String code);
 

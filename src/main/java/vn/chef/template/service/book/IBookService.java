@@ -5,7 +5,6 @@ import vn.chef.template.domain.Book;
 import vn.chef.template.web.api.model.BookCreateRequest;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface IBookService {
 
@@ -20,10 +19,10 @@ public interface IBookService {
     /**
      * Get a book by id
      *
-     * @param bookId {@link UUID} the book id
+     * @param bookId {@link Long} the book id
      * @return {@link Book} the book
      */
-    Book getBookByBookId(UUID bookId);
+    Book getBookByBookId(Long bookId);
 
     /**
      * Get books

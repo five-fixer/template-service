@@ -16,11 +16,7 @@ import vn.chef.template.web.api.model.BookCreateRequest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
@@ -50,7 +46,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Book getBookByBookId(UUID bookId) {
+    public Book getBookByBookId(Long bookId) {
         return bookRepository.findById(bookId).orElseThrow(() -> new DataNotFoundException(HttpStatus.NOT_FOUND.value(), "Book not found"));
     }
 
