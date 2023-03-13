@@ -101,13 +101,15 @@ spring:
     flyway:
         schemas: public
     datasource:
-        url: jdbc:postgresql://localhost:5432/template-service?currentSchema=public
+        url: jdbc:postgresql://localhost:5432/user_db
         username: postgres
-        password: postgres
+        password: 123456
         driver-class-name: org.postgresql.Driver
+        initialize: false
     jpa:
         properties:
             hibernate:
+                ddl-auto: create
                 default_schema: public
                 dialect: org.hibernate.dialect.PostgreSQL95Dialect
                 show_sql: false
@@ -176,3 +178,6 @@ template-service:
     app-version: #project.version#
     client:
         timeout: 30 # seconds
+
+
+

@@ -77,6 +77,51 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/BookItemResponse"
 
+    /api/v1/login/third-party:
+        post:
+            summary: Login with third party
+            tags:
+                - Auth
+            operationId: loginWithThirdParty
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/LoginThirdPartyRequest"
+
+            responses:
+                200:
+                    description: login successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                description: JWT token
+
+    /api/v1/login:
+        post:
+            summary: Login with account
+            tags:
+                - Auth
+            operationId: loginWithAccount
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/LoginRequest"
+
+            responses:
+                200:
+                    description: login successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                description: JWT token
+
+
 components:
     parameters:
         Limit:
@@ -165,3 +210,32 @@ components:
                     type: integer
                     format: int32
                     description: the total number of books
+
+        LoginThirdPartyRequest:
+            type: object
+            title: LoginThirdPartyRequest
+            required:
+                - provider
+                - accessToken
+            properties:
+                provider:
+                    type: string
+                    enum: [FACEBOOK, GOOGLE]
+                    description: third party
+                accessToken:
+                    type: string
+                    description: access token of user with third party
+
+        LoginRequest:
+            type: object
+            title: LoginRequest
+            required:
+                - email
+                - password
+            properties:
+                email:
+                    type: string
+                    description: Email
+                password:
+                    type: string
+                    description: Password

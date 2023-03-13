@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class BookV1Api implements BookV1ApiDelegate {
+public class  BookV1Api implements BookV1ApiDelegate {
 
     private final IBookService bookService;
 

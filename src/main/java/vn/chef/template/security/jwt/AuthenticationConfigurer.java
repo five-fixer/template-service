@@ -16,4 +16,6 @@ public class AuthenticationConfigurer extends SecurityConfigurerAdapter<DefaultS
             .addFilterBefore(new FirebaseAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
+
+
 }
